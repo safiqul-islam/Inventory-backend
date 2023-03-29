@@ -79,12 +79,12 @@ class AuthController extends Controller
 
     /**
      * Log the user out (Invalidate the token).
-     *
+     * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function logout() {
-        auth()->logout();
-        return response()->json(['message' => 'User successfully signed out']);
+    public function userLogout() {
+        auth()->user()->token()->revoke();
+        return response()->json(['message' => 'User successfully logged out']);
     }
     /**
      * Refresh a token.
