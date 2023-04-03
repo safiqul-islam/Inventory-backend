@@ -40,7 +40,9 @@ class AuthController extends Controller
             if (Hash::check($request->password, $user->password)) {
                 $token = $user->createToken('Laravel Password Grant Client')->accessToken;
                 $response = ['token' => $token];
+//                $cookie = cookie('jwt',$token);
                 return response()->json($response, 200);
+//                return response()->json($response, 200)->withCookie($cookie);
             } else {
                 $response = ["message" => "Password mismatch"];
                 return response()->json($response, 422);
