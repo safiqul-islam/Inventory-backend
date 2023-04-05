@@ -33,13 +33,15 @@ class AuthController extends Controller
         ]);
         if ($validator->fails())
         {
-            return response()->json(['errors'=>$validator->errors()->all()], 422);
+            $response = ['message'=>$validator->errors()->first()];
+            return response()->json($response, 422);
         }
         $user = User::where('email', $request->email)->first();
         if ($user) {
             if (Hash::check($request->password, $user->password)) {
                 $token = $user->createToken('Laravel Password Grant Client')->accessToken;
-                $response = ['token' => $token];
+                $response['message'] = 'Successfully Login';
+                $response['token'] =  $token;
 //                $cookie = cookie('jwt',$token);
                 return response()->json($response, 200);
 //                return response()->json($response, 200)->withCookie($cookie);
